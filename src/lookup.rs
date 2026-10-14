@@ -195,20 +195,20 @@ fn urlencode(s: &str) -> String {
     out
 }
 
+/// Test transport shared by the lookup and login tests.
 #[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::verify::test_keys::generate;
+pub(crate) mod test_http {
+    use super::{HttpFetch, LookupError};
     use std::collections::HashMap;
     use std::sync::Mutex;
 
-    struct FakeHttp {
+    pub struct FakeHttp {
         responses: HashMap<String, (u16, Vec<u8>)>,
         requests: Mutex<Vec<String>>,
     }
 
     impl FakeHttp {
-        fn new(responses: &[(&str, u16, Vec<u8>)]) -> Self {
+        pub fn new(responses: &[(&str, u16, Vec<u8>)]) -> Self {
             Self {
                 responses: responses
                     .iter()
@@ -218,7 +218,7 @@ mod tests {
             }
         }
 
-        fn requested(&self) -> Vec<String> {
+        pub fn requested(&self) -> Vec<String> {
             self.requests.lock().expect("lock").clone()
         }
     }
@@ -233,6 +233,13 @@ mod tests {
             }
         }
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::test_http::FakeHttp;
+    use super::*;
+    use crate::verify::test_keys::generate;
 
     const EMAIL: &str = "joe.doe@example.org";
     // Known vector from the WKD draft: zbase32(sha1("joe.doe")).
