@@ -10,3 +10,4 @@
 //! client-supplied keys off by default.
 
 pub mod challenge;
+pub mod verify;
