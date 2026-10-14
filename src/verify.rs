@@ -67,13 +67,16 @@ pub fn is_revoked(key: &SignedPublicKey) -> bool {
 
 #[cfg(test)]
 pub(crate) mod test_keys {
-    use pgp::composed::{KeyType, SecretKeyParamsBuilder, SignedPublicKey, SignedSecretKey};
+    use pgp::composed::{
+        KeyType, SecretKeyParamsBuilder, SignedPublicKey, SignedSecretKey, SubkeyParamsBuilder,
+    };
+    use pgp::crypto::ecc_curve::ECCCurve;
     use pgp::types::Password;
     use rand_chacha::rand_core::SeedableRng;
     use rand_chacha::ChaCha20Rng;
 
-    /// Deterministic test key with the given user id, e.g.
-    /// `"Admin <admin@example.org>"`.
+    /// Deterministic test key (signing primary + encryption subkey) with the
+    /// given user id, e.g. `"Admin <admin@example.org>"`.
     pub fn generate(seed: u64, user_id: &str) -> (SignedSecretKey, SignedPublicKey) {
         let mut rng = ChaCha20Rng::seed_from_u64(seed);
         let params = SecretKeyParamsBuilder::default()
@@ -81,6 +84,13 @@ pub(crate) mod test_keys {
             .can_sign(true)
             .can_certify(true)
             .primary_user_id(user_id.to_string())
+            .subkey(
+                SubkeyParamsBuilder::default()
+                    .key_type(KeyType::ECDH(ECCCurve::Curve25519Legacy))
+                    .can_encrypt(pgp::composed::EncryptionCaps::All)
+                    .build()
+                    .expect("valid subkey params"),
+            )
             .build()
             .expect("valid key params");
         let secret = params.generate(&mut rng).expect("key generation");

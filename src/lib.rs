@@ -10,6 +10,7 @@
 //! client-supplied keys off by default.
 
 pub mod challenge;
+pub mod e2e;
 pub mod login;
 pub mod lookup;
 pub mod verify;
