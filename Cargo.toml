@@ -1,0 +1,41 @@
+[package]
+name = "aegis-http-tokio"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Server-side middleware for the Aegis Http Zero Trust protocol: OpenPGP challenge login and end-to-end encrypted payloads, as a tower layer with an axum adapter."
+repository = "https://github.com/AegisHttp/rust-tokio"
+homepage = "https://github.com/AegisHttp"
+keywords = ["gpg", "openpgp", "authentication", "e2e", "middleware"]
+categories = ["authentication", "web-programming", "cryptography"]
+rust-version = "1.85"
+
+[features]
+default = ["axum"]
+axum = ["dep:axum"]
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+unwrap_used = "warn"
+
+[dependencies]
+axum = { version = "0.8", optional = true, default-features = false, features = ["json", "tokio", "http1"] }
+base64 = "0.23.1"
+bytes = "1.12.1"
+http = "1.5.0"
+http-body-util = "0.1.5"
+pgp = "0.21"
+rand = "0.10.3"
+serde = "1.0.229"
+serde_json = "1.0.154"
+sha1 = "0.11.0"
+thiserror = "2.0.21"
+tokio = { version = "1.53.3", features = ["rt", "macros", "time", "sync"] }
+tower = "0.5.3"
+
+[dev-dependencies]
+tokio = { version = "1.53.3", features = ["test-util", "rt-multi-thread"] }
+tower = { version = "0.5.3", features = ["util"] }
