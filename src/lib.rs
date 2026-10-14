@@ -9,6 +9,8 @@
 //! challenges, fingerprint pinning, HTTPS-only key lookup and
 //! client-supplied keys off by default.
 
+#[cfg(feature = "axum")]
+pub mod axum;
 pub mod challenge;
 pub mod e2e;
 pub mod login;

@@ -30,6 +30,8 @@ pub struct VerifiedLogin {
     pub email: String,
     /// Primary key fingerprint, uppercase hex. Pin it on first login.
     pub fingerprint: String,
+    /// The verified public key; register it as the E2E response recipient.
+    pub public_key: SignedPublicKey,
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -125,6 +127,7 @@ impl<H: HttpFetch> LoginService<H> {
         Ok(VerifiedLogin {
             email: request.email.clone(),
             fingerprint,
+            public_key: key,
         })
     }
 
