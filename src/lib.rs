@@ -8,3 +8,5 @@
 //! `gofiber-aegis` middleware; the hardening model follows one-time TTL
 //! challenges, fingerprint pinning, HTTPS-only key lookup and
 //! client-supplied keys off by default.
+
+pub mod challenge;
