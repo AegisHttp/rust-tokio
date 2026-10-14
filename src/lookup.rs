@@ -196,8 +196,8 @@ fn urlencode(s: &str) -> String {
 }
 
 /// Test transport shared by the lookup and login tests.
-#[cfg(test)]
-pub(crate) mod test_http {
+#[cfg(any(test, feature = "test-util"))]
+pub mod test_http {
     use super::{HttpFetch, LookupError};
     use std::collections::HashMap;
     use std::sync::Mutex;

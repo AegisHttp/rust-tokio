@@ -13,6 +13,8 @@ rust-version = "1.85"
 [features]
 default = ["axum"]
 axum = ["dep:axum"]
+# Deterministic test keys and a scripted HTTP transport, for application tests.
+test-util = ["dep:rand_chacha"]
 
 [lints.rust]
 unsafe_code = "forbid"
@@ -37,6 +39,8 @@ sha1 = "0.11.0"
 thiserror = "2.0.21"
 tokio = { version = "1.53.3", features = ["rt", "macros", "time", "sync"] }
 tower = "0.5.3"
+
+rand_chacha = { version = "0.3", optional = true }
 
 [dev-dependencies]
 chrono = "0.4.45"

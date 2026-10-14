@@ -65,8 +65,8 @@ pub fn is_revoked(key: &SignedPublicKey) -> bool {
     !key.details.revocation_signatures.is_empty()
 }
 
-#[cfg(test)]
-pub(crate) mod test_keys {
+#[cfg(any(test, feature = "test-util"))]
+pub mod test_keys {
     use pgp::composed::{
         KeyType, SecretKeyParamsBuilder, SignedPublicKey, SignedSecretKey, SubkeyParamsBuilder,
     };
