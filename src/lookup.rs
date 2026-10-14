@@ -199,7 +199,6 @@ fn urlencode(s: &str) -> String {
 mod tests {
     use super::*;
     use crate::verify::test_keys::generate;
-    use pgp::composed::Deserializable;
     use std::collections::HashMap;
     use std::sync::Mutex;
 
